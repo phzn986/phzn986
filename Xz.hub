@@ -1,0 +1,57 @@
+-- Criando um ScreenGui para exibir o menu local screenGui = Instance.new("ScreenGui") screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Criando um Frame para o menu local menuFrame = Instance.new("Frame") menuFrame.Size = UDim2.new(0.3, 0, 0.4, 0) menuFrame.Position = UDim2.new(0.35, 0, 0.3, 0) menuFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) menuFrame.Parent = screenGui
+
+-- Criando um título para o menu local title = Instance.new("TextLabel") title.Text = "Menu Principal" title.Size = UDim2.new(1, 0, 0.2, 0) title.BackgroundColor3 = Color3.fromRGB(70, 70, 70) title.TextColor3 = Color3.fromRGB(255, 255, 255) title.Parent = menuFrame
+
+-- Criando um botão de ação local button1 = Instance.new("TextButton") button1.Text = "Opção 1" button1.Size = UDim2.new(1, 0, 0.2, 0) button1.Position = UDim2.new(0, 0, 0.3, 0) button1.BackgroundColor3 = Color3.fromRGB(100, 100, 100) button1.TextColor3 = Color3.fromRGB(255, 255, 255) button1.Parent = menuFrame
+
+-- Criando um botão para fechar o menu local closeButton = Instance.new("TextButton") closeButton.Text = "Fechar" closeButton.Size = UDim2.new(1, 0, 0.2, 0) closeButton.Position = UDim2.new(0, 0, 0.6, 0) closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50) closeButton.TextColor3 = Color3.fromRGB(255, 255, 255) closeButton.Parent = menuFrame
+
+-- Evento para a opção 1 button1.MouseButton1Click:Connect(function() print("Opção 1 selecionada!") end)
+
+-- Evento para fechar o menu closeButton.MouseButton1Click:Connect(function() screenGui:Destroy() end)-- Serviços
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+-- Configurações
+local killAuraRange = 10 -- Alcance do kill aura
+local killAuraSpeed = 0.1 -- Velocidade do kill aura
+
+-- Função para detectar inimigos dentro do alcance
+local function detectEnemies()
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local position = character.HumanoidRootPart.Position
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local enemyCharacter = player.Character
+                if enemyCharacter then
+                    local enemyPosition = enemyCharacter.HumanoidRootPart.Position
+                    local distance = (position - enemyPosition).Magnitude
+                    if distance <= killAuraRange then
+                        return enemyCharacter
+                    end
+                end
+            end
+        end
+    end
+    return nil
+end
+
+-- Função para atacar inimigos
+local function attackEnemy(enemyCharacter)
+    -- Aqui você pode implementar a lógica para atacar o inimigo
+    -- Isso pode envolver disparar uma arma, usar uma habilidade, etc.
+    print("Atacando inimigo!")
+end
+
+-- Loop principal
+while true do
+    local enemy = detectEnemies()
+    if enemy then
+        attackEnemy(enemy)
+    end
+    wait(killAuraSpeed)
+end
+```
